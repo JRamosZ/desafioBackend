@@ -14,4 +14,9 @@ const get = async (id) => {
     return post
 }
 
-module.exports = { list, get }
+const create = (data) => {
+    const post = Post.create(data)
+    return post
+}
+
+module.exports = { list, get ,create}
