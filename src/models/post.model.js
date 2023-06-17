@@ -14,7 +14,7 @@ const postSchema = new mongoose.Schema({
         require: true,
     },
     postDateDay: {
-        type: Date,
+        type: String,
     },
     postDateMonth:{
         type: String,
