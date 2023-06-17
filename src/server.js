@@ -13,7 +13,7 @@ app.use(express.json())
 
 // Middlewares de rutas
 // app.use("/users", routerUser);
-// app.use("/posts", routerPost);
+app.use("/posts", routerPost);
 // app.use("/auth", routerAuth);
 
 /*
@@ -30,3 +30,4 @@ app.get('/', (req, res) => {
 // Exportar
 // common js
 module.exports = app;
+ 
