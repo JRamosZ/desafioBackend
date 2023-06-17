@@ -1,5 +1,5 @@
 const express = require('express')
-const { list, get } = require('../usecases/post.usecase')
+const { list, get ,create} = require('../usecases/post.usecase')
 
 const router = express.Router();
 
@@ -26,6 +26,22 @@ router.get('/:id', async(req, res) => {
             data: post
         })
     } catch(err){
+        res.status(err.status || 500).json({
+            success: false,
+            message: err.message
+        })
+    }
+})
+
+router.post('/', async(req, res) =>{
+    try{
+        const post = await create(req.body)
+        res.status(201)
+        res.json({
+            success: true,
+            data: post
+        })
+    }catch(err){
         res.status(err.status || 500).json({
             success: false,
             message: err.message
