@@ -7,7 +7,7 @@ const postSchema = new mongoose.Schema({
     },
     postAuthorId: {
         type: String,
-        unique: true
+        
     },
     postContent: {
         type: String,
