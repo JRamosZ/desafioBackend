@@ -23,7 +23,18 @@ const login = async (email, password) => {
 
   // Si es la password y si es el correo regresamos token
 
-  const token = jwt.sign({ id: user._id });
+  const token = jwt.sign({
+    id: user._id,
+    userImage: user.userImage,
+    userNickName: user.userNickName,
+    userName: `${user.userName} ${user.userLastname}`,
+  });
   return token;
 };
-module.exports = { create, login };
+
+const get = async (id) => {
+  const user = await User.findById(id);
+  if (!user) throw createError(404, "User not found");
+  return user;
+};
+module.exports = { create, login, get };
