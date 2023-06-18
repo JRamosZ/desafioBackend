@@ -7,14 +7,14 @@ const postSchema = new mongoose.Schema({
     },
     postAuthorId: {
         type: String,
-        unique: true
+        
     },
     postContent: {
         type: String,
         require: true,
     },
     postDateDay: {
-        type: Date,
+        type: String,
     },
     postDateMonth:{
         type: String,
