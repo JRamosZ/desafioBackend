@@ -1,6 +1,7 @@
 const bcrypt = require("bcrypt");
 const jwt = require("../lib/jwt.lib");
 const User = require("../models/user.model");
+const Post = require("../models/post.model");
 const createError = require("http-errors");
 
 const create = async (data) => {
@@ -37,4 +38,40 @@ const get = async (id) => {
   if (!user) throw createError(404, "User not found");
   return user;
 };
-module.exports = { create, login, get };
+
+const update = async (id, data, request) => {
+  const user = await User.findById(id);
+  const authorization = request.headers.authorization || "";
+  const token = authorization.replace("Bearer ", "");
+  const isVerified = jwt.verify(token);
+  if (isVerified.id != user.id)
+    throw createError(403, "No tienes permiso de editar a este usuario");
+  const updatedUser = await User.findByIdAndUpdate(id, data, {
+    returnDocument: "after",
+  });
+  if (!updatedUser) throw createError(404, "User not found");
+  return updatedUser;
+};
+
+const filteredList = async (filter) => {
+  const posts = await User.find(filter).populate('userPosts')
+  return posts;
+};
+
+const UsuarioConPublicaciones = async () => {
+  const resultado = await User.aggregate([
+    {
+      $lookup:
+      {
+        from: "Posts",
+        localField: "_id",
+        foreignField: "postAuthorId",
+        as: "userPosts"
+      }
+    },
+  ])
+  console.log(resultado)
+}
+UsuarioConPublicaciones()
+
+module.exports = { create, login, get, filteredList, update, UsuarioConPublicaciones };
