@@ -33,7 +33,7 @@ const userSchema = new mongoose.Schema({
   userPassword: {
     type: String,
     require: true,
-  },
+  }
 });
 
 module.exports = mongoose.model("Users", userSchema, "Users");
