@@ -54,24 +54,8 @@ const update = async (id, data, request) => {
 };
 
 const filteredList = async (filter) => {
-  const posts = await User.find(filter).populate('userPosts')
+  const posts = await Post.find(filter)
   return posts;
 };
 
-const UsuarioConPublicaciones = async () => {
-  const resultado = await User.aggregate([
-    {
-      $lookup:
-      {
-        from: "Posts",
-        localField: "_id",
-        foreignField: "postAuthorId",
-        as: "userPosts"
-      }
-    },
-  ])
-  console.log(resultado)
-}
-UsuarioConPublicaciones()
-
-module.exports = { create, login, get, filteredList, update, UsuarioConPublicaciones };
+module.exports = { create, login, get, filteredList, update };

@@ -52,8 +52,7 @@ router.patch("/:id", auth, async (req, res) => {
 router.get("/:id/posts", async (req, res) => {
   try {
       const user = await get(req.params.id);
-      const userAndPosts = await filteredList(user);
-      const posts = userAndPosts[0]["userPosts"]
+      const posts = await filteredList({ postAuthorId :`${user.id}`});
       res.json({
           succes: true,
           data: posts,
