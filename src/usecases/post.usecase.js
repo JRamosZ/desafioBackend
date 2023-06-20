@@ -44,4 +44,34 @@ const update = async (id, data, request) => {
   return updatedPost;
 };
 
-module.exports = { list, get, create, deleteById, update };
+// [extra] const add para añadir comentarios a un post 
+const addComment = async (id, data, request) => {
+  const post = await Post.findById(id)
+  const updatedData = post.postComments
+  updatedData.push(data)
+  const updatedPost = Post.findByIdAndUpdate(id, {postComments : updatedData}, {
+      returnDocument: "after",
+  });
+  if (!updatedPost) throw createError(404, "Post not found");
+  return updatedPost;
+};
+
+// [extra] const add para añadir(? o eliminar) likes a un post 
+const addLike = async (id, data, request) => {
+  const post = await Post.findById(id)
+  const likesArray = post.postLikes.likes
+  const validateId = likesArray.findIndex(item => item.likeAuthorId === data.likeAuthorId)
+  if(validateId === -1){
+    likesArray.push(data)
+  } else {
+    likesArray.splice(validateId, 1)
+  }
+  const updatedCounter = likesArray.length
+  const updatedPost = Post.findByIdAndUpdate(id, {postLikes : {likeCounter: updatedCounter, likes: likesArray}}, {
+      returnDocument: "after",
+  });
+  if (!updatedPost) throw createError(404, "Post not found");
+  return updatedPost;
+};
+
+module.exports = { list, get, create, deleteById, update, addComment, addLike };
