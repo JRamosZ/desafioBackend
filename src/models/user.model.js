@@ -33,10 +33,7 @@ const userSchema = new mongoose.Schema({
   userPassword: {
     type: String,
     require: true,
-  },
-  userPosts: [{
-    type: mongoose.Schema.Types.ObjectId, 
-    ref: 'Posts' }]
+  }
 });
 
 module.exports = mongoose.model("Users", userSchema, "Users");
