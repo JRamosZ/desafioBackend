@@ -6,7 +6,7 @@ const {
   deleteById,
   update,
   addComment,
-  addLike
+  addLike,
 } = require("../usecases/post.usecase");
 const { auth } = require("../middlewares/auth.middleware");
 
@@ -14,7 +14,12 @@ const router = express.Router();
 
 router.get("/", async (req, res) => {
   try {
-    const posts = await list();
+    let filter = req.body;
+    if (Object.keys(req.body).length === 0 || req.body.value === "") {
+      filter = false;
+      console.log("entro");
+    }
+    const posts = await list(filter);
     res.json({
       success: true,
       data: posts,
@@ -88,20 +93,20 @@ router.patch("/:id", auth, async (req, res) => {
   }
 });
 
-// [extra] ruta para añadir comentarios a un post 
+// [extra] ruta para añadir comentarios a un post
 
 router.patch("/:id/comments", auth, async (req, res) => {
   try {
-      const user = await addComment(req.params.id, req.body);
-      res.json({
-          success: true,
-          data: user,
-      });
+    const user = await addComment(req.params.id, req.body);
+    res.json({
+      success: true,
+      data: user,
+    });
   } catch (err) {
-      res.status(err.status || 500).json({
-          success: false,
-          message: err.message,
-  });
+    res.status(err.status || 500).json({
+      success: false,
+      message: err.message,
+    });
   }
 });
 
@@ -109,16 +114,16 @@ router.patch("/:id/comments", auth, async (req, res) => {
 
 router.patch("/:id/likes", auth, async (req, res) => {
   try {
-      const user = await addLike(req.params.id, req.body);
-      res.json({
-          success: true,
-          data: user,
-      });
+    const user = await addLike(req.params.id, req.body);
+    res.json({
+      success: true,
+      data: user,
+    });
   } catch (err) {
-      res.status(err.status || 500).json({
-          success: false,
-          message: err.message,
-  });
+    res.status(err.status || 500).json({
+      success: false,
+      message: err.message,
+    });
   }
 });
 
