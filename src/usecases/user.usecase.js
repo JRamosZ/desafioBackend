@@ -7,7 +7,6 @@ const createError = require("http-errors");
 const create = async (data) => {
   const saltRounds = 10;
   data.userPassword = await bcrypt.hash(data.userPassword, saltRounds);
-  console.log(data.userPassword);
   const user = User.create(data);
   return user;
 };
@@ -39,23 +38,23 @@ const get = async (id) => {
   return user;
 };
 
-const update = async (id, data, request) => {
-  const user = await User.findById(id);
-  const authorization = request.headers.authorization || "";
-  const token = authorization.replace("Bearer ", "");
-  const isVerified = jwt.verify(token);
-  if (isVerified.id != user.id)
-    throw createError(403, "No tienes permiso de editar a este usuario");
-  const updatedUser = await User.findByIdAndUpdate(id, data, {
-    returnDocument: "after",
-  });
-  if (!updatedUser) throw createError(404, "User not found");
-  return updatedUser;
-};
+// const update = async (id, data, request) => {
+//   const user = await User.findById(id);
+//   const authorization = request.headers.authorization || "";
+//   const token = authorization.replace("Bearer ", "");
+//   const isVerified = jwt.verify(token);
+//   if (isVerified.id != user.id)
+//     throw createError(403, "No tienes permiso de editar a este usuario");
+//   const updatedUser = await User.findByIdAndUpdate(id, data, {
+//     returnDocument: "after",
+//   });
+//   if (!updatedUser) throw createError(404, "User not found");
+//   return updatedUser;
+// };
 
 const filteredList = async (filter) => {
-  const posts = await Post.find(filter)
+  const posts = await Post.find(filter);
   return posts;
 };
 
-module.exports = { create, login, get, filteredList, update };
+module.exports = { create, login, get, filteredList };
