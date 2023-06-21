@@ -4,7 +4,6 @@ const {
   get,
   create,
   deleteById,
-  update,
   addComment,
   addLike,
 } = require("../usecases/post.usecase");
@@ -17,7 +16,6 @@ router.get("/", async (req, res) => {
     let filter = req.body;
     if (Object.keys(req.body).length === 0 || req.body.value === "") {
       filter = false;
-      console.log("entro");
     }
     const posts = await list(filter);
     res.json({
@@ -78,20 +76,20 @@ router.delete("/:id", auth, async (req, res) => {
   }
 });
 
-router.patch("/:id", auth, async (req, res) => {
-  try {
-    const post = await update(req.params.id, req.body, req);
-    res.json({
-      success: true,
-      data: post,
-    });
-  } catch (err) {
-    res.status(err.status || 500).json({
-      success: false,
-      message: err.message,
-    });
-  }
-});
+// router.patch("/:id", auth, async (req, res) => {
+//   try {
+//     const post = await update(req.params.id, req.body, req);
+//     res.json({
+//       success: true,
+//       data: post,
+//     });
+//   } catch (err) {
+//     res.status(err.status || 500).json({
+//       success: false,
+//       message: err.message,
+//     });
+//   }
+// });
 
 // [extra] ruta para añadir comentarios a un post
 
