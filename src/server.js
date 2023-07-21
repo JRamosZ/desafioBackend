@@ -23,7 +23,7 @@ app.use("/auth", routerAuth);
 */
 
 app.get("/", (req, res) => {
-  res.json("Nuestra Api sirve");
+  res.json("Nuestra Api sirve modificado");
 });
 
 // Exportar
