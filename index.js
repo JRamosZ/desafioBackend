@@ -6,13 +6,13 @@ const app = require("./src/server");
 const { DB_USERNAME, DB_PASSWORD, DB_HOST, DB_NAME } = process.env;
 
 const databaseUrl = `mongodb+srv://${DB_USERNAME}:${DB_PASSWORD}@${DB_HOST}/${DB_NAME}`;
-const port = process.env.PORT || 8080;
+const port2 = process.env.PORT || 8080;
 
 mongoose
   .connect(databaseUrl)
   .then(() => {
     console.log("Conexión a la base de datos exitosa");
-    app.listen(port, () => {
+    app.listen(port2, () => {
       console.log("Nuestra api de clean arquitecture está prendida!");
     });
     // Levantar servidor
